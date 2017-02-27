@@ -18,7 +18,7 @@ if(isset($_GET['url']))
 
 }
 
-    $url = ("http://example.com/convert/files/");
+    $url = ("http://example.com/files/");
     $result = ("$url" . "$file" . ".png");
     $arr = array('url' => $result);
 
