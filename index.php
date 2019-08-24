@@ -1,27 +1,24 @@
 <?php
 
-if(isset($_GET['url']))
+declare(strict_types=1);
 
-{
-
-    $link=$_GET['url'];
-    $file = basename($link);
-    $file = basename($link, ".svg");
-    $path="files/";
-    $im = new Imagick();
-    $svg = file_get_contents($link);
-    $im->readImageBlob($svg);
-    $im->setImageFormat("png24");
-    $im->writeImage("files/$file.png");
-    $im->clear();
-    $im->destroy();
-
+if (isset($_GET['url']) === false) {
+	echo json_encode([
+		'url' => null,
+	]);
+	die;
 }
 
-    $url = ("http://example.com/files/");
-    $result = ("$url" . "$file" . ".png");
-    $arr = array('url' => $result);
+$link = $_GET['url'];
+$file = basename($link, '.svg');
 
-    echo json_encode($arr);
+$im = new Imagick();
+$im->readImageBlob(file_get_contents($link));
+$im->setImageFormat('png24');
+$im->writeImage('files/' . $file . '.png');
+$im->clear();
+$im->destroy();
 
-?>
+echo json_encode([
+	'url' => 'http://example.com/files/' . $file . '.png',
+]);
